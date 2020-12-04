@@ -1,10 +1,11 @@
 package br.com.mlm.dostock.repositories
 
-
+import br.com.mlm.dostock.domain.Product
+import br.com.mlm.dostock.domain.ProductBatch
 import org.springframework.data.repository.PagingAndSortingRepository
 
-interface ProductBatchRepository extends PagingAndSortingRepository<br.com.mlm.dostock.domain.ProductBatch, Long>{
+interface ProductBatchRepository extends PagingAndSortingRepository<ProductBatch, Long>{
 
-    List<br.com.mlm.dostock.domain.ProductBatch> findAllByProduct(br.com.mlm.dostock.domain.Product product)
+    List<ProductBatch> findAllByProduct(Product product)
 
 }

@@ -1,13 +1,16 @@
 package br.com.mlm.dostock.services
 
+import br.com.mlm.dostock.domain.Product
+import br.com.mlm.dostock.domain.ProductBatch
+
 interface ProductBatchService {
 
-    List<br.com.mlm.dostock.domain.ProductBatch> list(br.com.mlm.dostock.domain.Product product)
+    List<ProductBatch> list(Product product)
 
-    br.com.mlm.dostock.domain.ProductBatch save(br.com.mlm.dostock.domain.ProductBatch productBatch)
+    ProductBatch save(ProductBatch productBatch)
 
-    br.com.mlm.dostock.domain.ProductBatch addQuantity(br.com.mlm.dostock.domain.ProductBatch productBatch, Long quantity)
+    ProductBatch addQuantity(ProductBatch productBatch, Long quantity)
 
-    br.com.mlm.dostock.domain.ProductBatch removeQuantity(br.com.mlm.dostock.domain.ProductBatch productBatch, Long quantity)
+    ProductBatch removeQuantity(ProductBatch productBatch, Long quantity)
 
 }

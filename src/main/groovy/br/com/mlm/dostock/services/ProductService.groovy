@@ -1,17 +1,20 @@
 package br.com.mlm.dostock.services
 
+import br.com.mlm.dostock.domain.Product
+import br.com.mlm.dostock.domain.ProductBatch
+
 interface ProductService {
 
-    List<br.com.mlm.dostock.domain.Product> list(Integer max, Integer offset, String sort, String order)
+    List<Product> list(Integer max, Integer offset, String sort, String order)
 
-    br.com.mlm.dostock.domain.Product save(br.com.mlm.dostock.domain.Product product)
+    Product save(Product product)
 
-    br.com.mlm.dostock.domain.Product update(Long id, br.com.mlm.dostock.domain.Product product)
+    Product update(Long id, Product product)
 
     void deleteById(Long id)
 
-    void stockInput(br.com.mlm.dostock.domain.Product product, br.com.mlm.dostock.domain.ProductBatch productBatch, Long quantity, String observation)
+    void stockInput(Product product, ProductBatch productBatch, Long quantity, String observation)
 
-    void stockOutput(br.com.mlm.dostock.domain.Product product, br.com.mlm.dostock.domain.ProductBatch productBatch, Long quantity, String observation)
+    void stockOutput(Product product, ProductBatch productBatch, Long quantity, String observation)
 
 }

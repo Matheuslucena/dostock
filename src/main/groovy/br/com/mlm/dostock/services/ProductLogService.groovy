@@ -1,9 +1,14 @@
 package br.com.mlm.dostock.services
 
+import br.com.mlm.dostock.domain.Product
+import br.com.mlm.dostock.domain.ProductBatch
+import br.com.mlm.dostock.domain.ProductLog
+import br.com.mlm.dostock.util.types.ProductLogType
+
 interface ProductLogService {
 
-    List<br.com.mlm.dostock.domain.ProductLog> list(Integer max, Integer offset, String sort, String order)
+    List<ProductLog> list(Integer max, Integer offset, String sort, String order)
 
-    void register(br.com.mlm.dostock.domain.Product product, br.com.mlm.dostock.domain.ProductBatch productBatch, Long quantity, String observation, br.com.mlm.dostock.util.types.ProductLogType productLogType)
+    void register(Product product, ProductBatch productBatch, Long quantity, String observation, ProductLogType productLogType)
 
 }
