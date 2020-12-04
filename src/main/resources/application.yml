@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/dostock
+    username: dostock
+    password: dostock
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 15
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      auto-commit: true
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      show_sql: false
+      ddl-auto: none
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
