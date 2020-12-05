@@ -2,8 +2,8 @@ package br.com.mlm.dostock.controller;
 
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
+import br.com.mlm.dostock.dto.InventoryDTO;
 import br.com.mlm.dostock.dto.ProductDTO;
-import br.com.mlm.dostock.dto.StockDTO;
 import br.com.mlm.dostock.dto.mapper.ProductMapper;
 import br.com.mlm.dostock.repositories.ProductBatchRepository;
 import br.com.mlm.dostock.repositories.ProductRepository;
@@ -51,7 +51,7 @@ class ProductControllerTest {
     List<Product> products = new ArrayList<>();
 
     ProductDTO productDTO;
-    StockDTO stockDTO;
+    InventoryDTO inventoryDTO;
 
     @BeforeEach
     void setUp() {
@@ -65,14 +65,15 @@ class ProductControllerTest {
         productDTO.setName("Product Test 99");
         productDTO.setCode("999");
 
-        stockDTO = new StockDTO();
-        stockDTO.setProductBatchId(1L);
-        stockDTO.setQuantity(10L);
-        stockDTO.setObservation("Test Product Input");
+        inventoryDTO = new InventoryDTO();
+        inventoryDTO.setProductBatchId(1L);
+        inventoryDTO.setQuantity(10L);
+        inventoryDTO.setObservation("Test Product Input");
 
         given(productRepository.findById(anyLong())).willReturn(java.util.Optional.ofNullable(products.get(0)));
         given(productBatchRepository.findById(anyLong())).willReturn(java.util.Optional.of(new ProductBatch()));
-        willDoNothing().given(productService).stockOutput(any(), any(), anyLong(), anyString());
+        willDoNothing().given(productService).inventoryIncrease(any(), any(), anyLong(), anyString());
+        willDoNothing().given(productService).inventoryDecrease(any(), any(), anyLong(), anyString());
         given(productMapper.toDomain(any())).willReturn(products.get(0));
         given(productService.save(any())).willReturn(products.get(0));
     }
@@ -143,20 +144,20 @@ class ProductControllerTest {
 
     @DisplayName("Should add stock to product")
     @Test
-    void stockInput() throws Exception {
-        mockMvc.perform(post("/api/v1/product/{id}/stockInput", 1)
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(stockDTO)))
+    void inventoryIncrease() throws Exception {
+        mockMvc.perform(post("/api/v1/product/{id}/increase", 1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isOk());
     }
 
     @DisplayName("Should not add stock to product")
     @Test
-    void stockInputInvalid() throws Exception {
-        stockDTO.setProductBatchId(null);
-        stockDTO.setQuantity(0L);
+    void inventoryIncreaseInvalid() throws Exception {
+        inventoryDTO.setProductBatchId(null);
+        inventoryDTO.setQuantity(0L);
 
-        mockMvc.perform(post("/api/v1/product/{id}/stockInput", 1)
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(stockDTO)))
+        mockMvc.perform(post("/api/v1/product/{id}/increase", 1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.quantity", is("must be greater than or equal to 1")))
                 .andExpect(jsonPath("$.productBatchId", is("must not be null")));
@@ -164,21 +165,21 @@ class ProductControllerTest {
 
     @DisplayName("Should remove stock from product")
     @Test
-    void stockOutput() throws Exception {
+    void inventoryDecrease() throws Exception {
 
-        mockMvc.perform(post("/api/v1/product/{id}/stockOutput", 1)
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(stockDTO)))
+        mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isOk());
     }
 
     @DisplayName("Should not remove stock from product")
     @Test
-    void stockOutputInvalid() throws Exception {
-        stockDTO.setProductBatchId(null);
-        stockDTO.setQuantity(0L);
+    void inventoryDecreaseInvalid() throws Exception {
+        inventoryDTO.setProductBatchId(null);
+        inventoryDTO.setQuantity(0L);
 
-        mockMvc.perform(post("/api/v1/product/{id}/stockInput", 1)
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(stockDTO)))
+        mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.quantity", is("must be greater than or equal to 1")))
                 .andExpect(jsonPath("$.productBatchId", is("must not be null")));

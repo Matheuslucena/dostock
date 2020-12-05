@@ -111,7 +111,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Should add a product stock")
-    void stockInput() {
+    void inventoryIncrease() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
         productBatch.setQuantity(10L);
@@ -121,7 +121,7 @@ class ProductServiceImplTest {
         String obs = "Teste";
         Long quantity = 1L;
 
-        productService.stockInput(product1, productBatch, quantity, obs);
+        productService.inventoryIncrease(product1, productBatch, quantity, obs);
 
         verify(productBatchService, times(1)).addQuantity(any(), any());
         verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.INPUT);
@@ -133,13 +133,13 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Should not add item on batch")
-    void stockInputNoBatch() {
+    void inventoryIncreaseNoBatch() {
         product1.setQuantity(10L);
 
         String obs = "Teste";
         Long quantity = 1L;
 
-        productService.stockInput(product1, null, quantity, obs);
+        productService.inventoryIncrease(product1, null, quantity, obs);
 
         verify(productBatchService, times(0)).addQuantity(any(), any());
         verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.INPUT);
@@ -151,13 +151,13 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Should throw exception when input quantity <= 0")
-    void stockInputException() {
-        assertThrows(Exception.class, () -> productService.stockInput(null, null, 0L, ""));
+    void inventoryIncreaseException() {
+        assertThrows(Exception.class, () -> productService.inventoryIncrease(null, null, 0L, ""));
     }
 
     @Test
     @DisplayName("Should remove a product stock")
-    void stockOutput() {
+    void inventoryDecrease() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
         productBatch.setQuantity(10L);
@@ -167,7 +167,7 @@ class ProductServiceImplTest {
         String obs = "Teste";
         Long quantity = 1L;
 
-        productService.stockOutput(product1, productBatch, quantity, obs);
+        productService.inventoryDecrease(product1, productBatch, quantity, obs);
 
         verify(productBatchService, times(1)).addQuantity(any(), any());
         verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.OUTPUT);
@@ -179,13 +179,13 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Should not remove item on batch")
-    void stockOutputNoBatch() {
+    void inventoryDecreaseNoBatch() {
         product1.setQuantity(10L);
 
         String obs = "Teste";
         Long quantity = 1L;
 
-        productService.stockOutput(product1, null, quantity, obs);
+        productService.inventoryDecrease(product1, null, quantity, obs);
 
         verify(productBatchService, times(0)).addQuantity(any(), any());
         verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.OUTPUT);
@@ -197,8 +197,8 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Should throw exception when output quantity <= 0")
-    void stockOutputException() {
-        Throwable exception = assertThrows(Exception.class, () -> productService.stockOutput(null, null, 0L, ""));
+    void inventoryDecreaseException() {
+        Throwable exception = assertThrows(Exception.class, () -> productService.inventoryDecrease(null, null, 0L, ""));
         assertEquals(QUANTIDADE_DEVE_SER_MAIOR_QUE_0, exception.getMessage());
     }
 
@@ -206,7 +206,7 @@ class ProductServiceImplTest {
     @DisplayName("Should throw exception when final quantity < 0")
     void stockQuantityOutputException() {
         product1.setQuantity(-11L);
-        Throwable exception = assertThrows(Exception.class, () -> productService.stockOutput(product1, null, 10L, ""));
+        Throwable exception = assertThrows(Exception.class, () -> productService.inventoryDecrease(product1, null, 10L, ""));
         assertEquals(PRODUTO_COM_ESTOQUE_INSUFICIENTE, exception.getMessage());
     }
 }

@@ -2,8 +2,8 @@ package br.com.mlm.dostock.controller
 
 import br.com.mlm.dostock.domain.Product
 import br.com.mlm.dostock.domain.ProductBatch
+import br.com.mlm.dostock.dto.InventoryDTO
 import br.com.mlm.dostock.dto.ProductDTO
-import br.com.mlm.dostock.dto.StockDTO
 import br.com.mlm.dostock.dto.mapper.ProductMapper
 import br.com.mlm.dostock.repositories.ProductBatchRepository
 import br.com.mlm.dostock.repositories.ProductRepository
@@ -56,19 +56,19 @@ class ProductController {
         productService.deleteById(id)
     }
 
-    @PostMapping("/{id}/stockInput")
+    @PostMapping("/{id}/increase")
     @ResponseStatus(HttpStatus.OK)
-    void stockInput(@PathVariable Long id, @Valid @RequestBody StockDTO stockDTO){
+    void inventoryIncrease(@PathVariable Long id, @Valid @RequestBody InventoryDTO inventoryDTO){
         Product product = productRepository.findById(id).orElse(null)
-        ProductBatch productBatch = productBatchRepository.findById(stockDTO.productBatchId).orElse(null)
-        productService.stockInput(product, productBatch, stockDTO.quantity, stockDTO.observation)
+        ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatchId).orElse(null)
+        productService.inventoryIncrease(product, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 
-    @PostMapping("/{id}/stockOutput")
+    @PostMapping("/{id}/decrease")
     @ResponseStatus(HttpStatus.OK)
-    void stockOutput(@PathVariable Long id, @Valid @RequestBody StockDTO stockDTO){
+    void inventoryDecrease(@PathVariable Long id, @Valid @RequestBody InventoryDTO inventoryDTO){
         Product product = productRepository.findById(id).orElse(null)
-        ProductBatch productBatch = productBatchRepository.findById(stockDTO.productBatchId).orElse(null)
-        productService.stockOutput(product, productBatch, stockDTO.quantity, stockDTO.observation)
+        ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatchId).orElse(null)
+        productService.inventoryDecrease(product, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 }

@@ -55,7 +55,7 @@ class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    void stockInput(Product product, ProductBatch productBatch, Long quantity, String observation) {
+    void inventoryIncrease(Product product, ProductBatch productBatch, Long quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -70,7 +70,7 @@ class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    void stockOutput(Product product, ProductBatch productBatch, Long quantity, String observation) {
+    void inventoryDecrease(Product product, ProductBatch productBatch, Long quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
