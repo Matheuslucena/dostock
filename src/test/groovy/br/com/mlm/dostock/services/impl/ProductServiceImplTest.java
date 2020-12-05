@@ -2,14 +2,13 @@ package br.com.mlm.dostock.services.impl;
 
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
-import br.com.mlm.dostock.repositories.ProductRepository;
-import br.com.mlm.dostock.util.types.ProductLogType;
 import br.com.mlm.dostock.repositories.ProductBatchRepository;
 import br.com.mlm.dostock.repositories.ProductLogRepository;
+import br.com.mlm.dostock.repositories.ProductRepository;
 import br.com.mlm.dostock.services.ProductBatchService;
 import br.com.mlm.dostock.services.ProductLogService;
+import br.com.mlm.dostock.util.types.ProductLogType;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,7 +80,6 @@ class ProductServiceImplTest {
         verify(productRepository).save(any(Product.class));
     }
 
-    @Disabled
     @Test
     @DisplayName("Should update a product")
     void update() {
@@ -102,9 +100,6 @@ class ProductServiceImplTest {
         assertEquals("P1", productUpdated.getName());
         assertEquals("54321", productUpdated.getCode());
         assertTrue(productUpdated.getBatchRequired());
-
-        //TODO: Como alterar somente os campos sujos?DTO?
-        assertEquals(10L, productUpdated.getMinimumLevel());
     }
 
     @Test

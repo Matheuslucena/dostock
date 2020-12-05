@@ -7,11 +7,15 @@ import org.hibernate.annotations.Where
 
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.Version
 
 @Entity
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "update product set deleted=true where id=?")
 class Product extends BaseEntity{
+
+    @Version
+    Integer version
 
     @Column(nullable = false)
     String name
