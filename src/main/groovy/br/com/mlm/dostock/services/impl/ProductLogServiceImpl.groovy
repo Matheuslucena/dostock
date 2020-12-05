@@ -23,7 +23,7 @@ class ProductLogServiceImpl implements ProductLogService {
     }
 
     @Override
-    void register(Product product, ProductBatch productBatch, Long quantity, String observation, ProductLogType logType) {
+    void register(Product product, ProductBatch productBatch, Integer quantity, String observation, ProductLogType logType) {
         ProductLog productLog = new ProductLog()
         productLog.quantity = quantity
         productLog.observation = observation

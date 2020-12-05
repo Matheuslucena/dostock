@@ -56,7 +56,7 @@ class ProductControllerTest {
     @BeforeEach
     void setUp() {
         Product p1 = new Product();
-        p1.setQuantity(10L);
+        p1.setQuantity(10);
         p1.setName("Product 01");
         p1.setCode("3333");
         products.add(p1);
@@ -67,13 +67,13 @@ class ProductControllerTest {
 
         inventoryDTO = new InventoryDTO();
         inventoryDTO.setProductBatchId(1L);
-        inventoryDTO.setQuantity(10L);
+        inventoryDTO.setQuantity(10);
         inventoryDTO.setObservation("Test Product Input");
 
         given(productRepository.findById(anyLong())).willReturn(java.util.Optional.ofNullable(products.get(0)));
         given(productBatchRepository.findById(anyLong())).willReturn(java.util.Optional.of(new ProductBatch()));
-        willDoNothing().given(productService).inventoryIncrease(any(), any(), anyLong(), anyString());
-        willDoNothing().given(productService).inventoryDecrease(any(), any(), anyLong(), anyString());
+        willDoNothing().given(productService).inventoryIncrease(any(), any(), anyInt(), anyString());
+        willDoNothing().given(productService).inventoryDecrease(any(), any(), anyInt(), anyString());
         given(productMapper.toDomain(any())).willReturn(products.get(0));
         given(productService.save(any())).willReturn(products.get(0));
     }
@@ -154,7 +154,7 @@ class ProductControllerTest {
     @Test
     void inventoryIncreaseInvalid() throws Exception {
         inventoryDTO.setProductBatchId(null);
-        inventoryDTO.setQuantity(0L);
+        inventoryDTO.setQuantity(0);
 
         mockMvc.perform(post("/api/v1/product/{id}/increase", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
@@ -176,7 +176,7 @@ class ProductControllerTest {
     @Test
     void inventoryDecreaseInvalid() throws Exception {
         inventoryDTO.setProductBatchId(null);
-        inventoryDTO.setQuantity(0L);
+        inventoryDTO.setQuantity(0);
 
         mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))

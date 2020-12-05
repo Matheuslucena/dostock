@@ -17,7 +17,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     hibernate:
-      show_sql: false
       ddl-auto: none
   servlet:
     multipart:

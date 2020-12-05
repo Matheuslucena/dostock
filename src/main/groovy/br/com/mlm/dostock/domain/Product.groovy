@@ -23,8 +23,8 @@ class Product extends BaseEntity{
     @Column(unique = true)
     String code
 
-    Long quantity
-    Long minimumLevel
+    Integer quantity = 0
+    Integer minimumLevel
     Boolean batchRequired = false
 
     @Column(columnDefinition = 'text')

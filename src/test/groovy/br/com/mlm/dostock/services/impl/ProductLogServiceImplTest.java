@@ -42,10 +42,10 @@ class ProductLogServiceImplTest {
         product1.setId(1L);
         product1.setName("Produto teste 01");
         product1.setCode("12345");
-        product1.setMinimumLevel(10L);
+        product1.setMinimumLevel(10);
         product1.setBatchRequired(false);
         product1.setObservation("Observacao produto 01");
-        product1.setQuantity(10L);
+        product1.setQuantity(10);
     }
 
     @Disabled
@@ -59,19 +59,19 @@ class ProductLogServiceImplTest {
     void registerInput() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10L);
+        productBatch.setQuantity(10);
         productBatch.setValidate(new Date());
         productBatch.setProduct(product1);
 
-        Long quantity = 5L;
+        Integer quantity = 5;
         String observation = "New Input";
 
-        productLogService.register(product1, productBatch, quantity, observation, ProductLogType.INPUT);
+        productLogService.register(product1, productBatch, quantity, observation, ProductLogType.INCREASE);
         verify(productLogRepository, times(1)).save(productLogArgumentCaptor.capture());
 
         ProductLog productLog = productLogArgumentCaptor.getValue();
 
-        assertEquals(ProductLogType.INPUT, productLog.getLogType());
+        assertEquals(ProductLogType.INCREASE, productLog.getLogType());
         assertEquals(quantity, productLog.getQuantity());
     }
 
@@ -80,19 +80,19 @@ class ProductLogServiceImplTest {
     void registerOutput() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10L);
+        productBatch.setQuantity(10);
         productBatch.setValidate(new Date());
         productBatch.setProduct(product1);
 
-        Long quantity = 5L;
+        Integer quantity = 5;
         String observation = "New Input";
 
-        productLogService.register(product1, productBatch, quantity, observation, ProductLogType.OUTPUT);
+        productLogService.register(product1, productBatch, quantity, observation, ProductLogType.DECREASE);
         verify(productLogRepository, times(1)).save(productLogArgumentCaptor.capture());
 
         ProductLog productLog = productLogArgumentCaptor.getValue();
 
-        assertEquals(ProductLogType.OUTPUT, productLog.getLogType());
+        assertEquals(ProductLogType.DECREASE, productLog.getLogType());
         assertEquals(quantity, productLog.getQuantity());
     }
 }

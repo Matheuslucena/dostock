@@ -10,6 +10,6 @@ class InventoryDTO {
 
     @Min(1L)
     @NotNull
-    Long quantity
+    Integer quantity
     String observation
 }

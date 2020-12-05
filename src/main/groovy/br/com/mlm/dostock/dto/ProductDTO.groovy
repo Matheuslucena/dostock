@@ -10,12 +10,12 @@ class ProductDTO {
     String code
 
     @Min(0L)
-    Long quantity
+    Integer quantity
 
     @Min(0L)
-    Long minimumLevel
+    Integer minimumLevel
 
-    Boolean batchRequired
+    Boolean batchRequired = Boolean.FALSE
 
     String observation
 }

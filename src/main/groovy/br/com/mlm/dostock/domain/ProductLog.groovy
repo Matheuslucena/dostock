@@ -1,14 +1,9 @@
 package br.com.mlm.dostock.domain
 
-
 import br.com.mlm.dostock.util.types.ProductLogType
 import org.hibernate.annotations.CreationTimestamp
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.OneToOne
+import javax.persistence.*
 
 @Entity
 class ProductLog extends BaseEntity{
@@ -20,7 +15,7 @@ class ProductLog extends BaseEntity{
     ProductBatch productBatch
 
     @Column(nullable = false)
-    Long quantity
+    Integer quantity
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

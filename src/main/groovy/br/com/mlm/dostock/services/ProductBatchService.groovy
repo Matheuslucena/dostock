@@ -9,8 +9,8 @@ interface ProductBatchService {
 
     ProductBatch save(ProductBatch productBatch)
 
-    ProductBatch addQuantity(ProductBatch productBatch, Long quantity)
+    ProductBatch addQuantity(ProductBatch productBatch, Integer quantity)
 
-    ProductBatch removeQuantity(ProductBatch productBatch, Long quantity)
+    ProductBatch removeQuantity(ProductBatch productBatch, Integer quantity)
 
 }

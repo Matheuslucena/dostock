@@ -55,7 +55,7 @@ class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    void inventoryIncrease(Product product, ProductBatch productBatch, Long quantity, String observation) {
+    void inventoryIncrease(Product product, ProductBatch productBatch, Integer quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -63,14 +63,14 @@ class ProductServiceImpl implements ProductService{
         if(productBatch){
             productBatchService.addQuantity(productBatch, quantity)
         }
-        productLogService.register(product, productBatch, quantity, observation, ProductLogType.INPUT)
+        productLogService.register(product, productBatch, quantity, observation, ProductLogType.INCREASE)
         product.quantity += quantity
 
         productRepository.save(product)
     }
 
     @Override
-    void inventoryDecrease(Product product, ProductBatch productBatch, Long quantity, String observation) {
+    void inventoryDecrease(Product product, ProductBatch productBatch, Integer quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -78,7 +78,7 @@ class ProductServiceImpl implements ProductService{
         if(productBatch){
             productBatchService.addQuantity(productBatch, quantity)
         }
-        productLogService.register(product, productBatch, quantity, observation, ProductLogType.OUTPUT)
+        productLogService.register(product, productBatch, quantity, observation, ProductLogType.DECREASE)
         product.quantity -= quantity
 
         if(product.quantity < 0){

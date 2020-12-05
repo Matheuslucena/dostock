@@ -60,10 +60,10 @@ class ProductServiceImplTest {
         product1.setId(1L);
         product1.setName("Produto teste 01");
         product1.setCode("12345");
-        product1.setMinimumLevel(10L);
+        product1.setMinimumLevel(10);
         product1.setBatchRequired(false);
         product1.setObservation("Observacao produto 01");
-        product1.setQuantity(10L);
+        product1.setQuantity(10);
     }
 
     @Test
@@ -114,45 +114,45 @@ class ProductServiceImplTest {
     void inventoryIncrease() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10L);
+        productBatch.setQuantity(10);
         productBatch.setValidate(new Date());
         productBatch.setProduct(product1);
 
         String obs = "Teste";
-        Long quantity = 1L;
+        Integer quantity = 1;
 
         productService.inventoryIncrease(product1, productBatch, quantity, obs);
 
         verify(productBatchService, times(1)).addQuantity(any(), any());
-        verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.INPUT);
+        verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.INCREASE);
         verify(productRepository, times(1)).save(productCaptor.capture());
 
         Product saved = productCaptor.getValue();
-        assertEquals(11L, saved.getQuantity());
+        assertEquals(11, saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should not add item on batch")
     void inventoryIncreaseNoBatch() {
-        product1.setQuantity(10L);
+        product1.setQuantity(10);
 
         String obs = "Teste";
-        Long quantity = 1L;
+        Integer quantity = 1;
 
         productService.inventoryIncrease(product1, null, quantity, obs);
 
         verify(productBatchService, times(0)).addQuantity(any(), any());
-        verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.INPUT);
+        verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.INCREASE);
         verify(productRepository, times(1)).save(productCaptor.capture());
 
         Product saved = productCaptor.getValue();
-        assertEquals(11L, saved.getQuantity());
+        assertEquals(11, saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should throw exception when input quantity <= 0")
     void inventoryIncreaseException() {
-        assertThrows(Exception.class, () -> productService.inventoryIncrease(null, null, 0L, ""));
+        assertThrows(Exception.class, () -> productService.inventoryIncrease(null, null, 0, ""));
     }
 
     @Test
@@ -160,53 +160,53 @@ class ProductServiceImplTest {
     void inventoryDecrease() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10L);
+        productBatch.setQuantity(10);
         productBatch.setValidate(new Date());
         productBatch.setProduct(product1);
 
         String obs = "Teste";
-        Long quantity = 1L;
+        Integer quantity = 1;
 
         productService.inventoryDecrease(product1, productBatch, quantity, obs);
 
         verify(productBatchService, times(1)).addQuantity(any(), any());
-        verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.OUTPUT);
+        verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.DECREASE);
         verify(productRepository, times(1)).save(productCaptor.capture());
 
         Product saved = productCaptor.getValue();
-        assertEquals(9L, saved.getQuantity());
+        assertEquals(9, saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should not remove item on batch")
     void inventoryDecreaseNoBatch() {
-        product1.setQuantity(10L);
+        product1.setQuantity(10);
 
         String obs = "Teste";
-        Long quantity = 1L;
+        Integer quantity = 1;
 
         productService.inventoryDecrease(product1, null, quantity, obs);
 
         verify(productBatchService, times(0)).addQuantity(any(), any());
-        verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.OUTPUT);
+        verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.DECREASE);
         verify(productRepository, times(1)).save(productCaptor.capture());
 
         Product saved = productCaptor.getValue();
-        assertEquals(9L, saved.getQuantity());
+        assertEquals(9, saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should throw exception when output quantity <= 0")
     void inventoryDecreaseException() {
-        Throwable exception = assertThrows(Exception.class, () -> productService.inventoryDecrease(null, null, 0L, ""));
+        Throwable exception = assertThrows(Exception.class, () -> productService.inventoryDecrease(null, null, 0, ""));
         assertEquals(QUANTIDADE_DEVE_SER_MAIOR_QUE_0, exception.getMessage());
     }
 
     @Test
     @DisplayName("Should throw exception when final quantity < 0")
     void stockQuantityOutputException() {
-        product1.setQuantity(-11L);
-        Throwable exception = assertThrows(Exception.class, () -> productService.inventoryDecrease(product1, null, 10L, ""));
+        product1.setQuantity(-11);
+        Throwable exception = assertThrows(Exception.class, () -> productService.inventoryDecrease(product1, null, 10, ""));
         assertEquals(PRODUTO_COM_ESTOQUE_INSUFICIENTE, exception.getMessage());
     }
 }

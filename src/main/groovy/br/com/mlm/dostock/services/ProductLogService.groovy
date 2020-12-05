@@ -9,6 +9,6 @@ interface ProductLogService {
 
     List<ProductLog> list(Integer max, Integer offset, String sort, String order)
 
-    void register(Product product, ProductBatch productBatch, Long quantity, String observation, ProductLogType productLogType)
+    void register(Product product, ProductBatch productBatch, Integer quantity, String observation, ProductLogType productLogType)
 
 }

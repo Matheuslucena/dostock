@@ -15,7 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,7 +39,7 @@ class ProductBatchServiceImplTest {
     void setUp() {
         productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10L);
+        productBatch.setQuantity(10);
         productBatch.setValidate(new Date());
         productBatch.setProduct(new Product());
     }
@@ -60,45 +61,41 @@ class ProductBatchServiceImplTest {
     @Test
     @DisplayName("Should add quantity to batch")
     void addQuantity() {
-        Long quantity = 10L;
+        Integer quantity = 10;
         productBatchService.addQuantity(productBatch, quantity);
 
         verify(productBatchRepository, times(1)).save(productBatchArgumentCaptor.capture());
         ProductBatch saved = productBatchArgumentCaptor.getValue();
 
-        assertEquals(20L, saved.getQuantity());
+        assertEquals(20, saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should throw exception if quantity less or equal to 0")
     void addQuantityThrowException() {
-        Long quantity = 0L;
+        Integer quantity = 0;
 
-        assertThrows(Exception.class, () -> {
-            productBatchService.addQuantity(productBatch, quantity);
-        });
+        assertThrows(Exception.class, () -> productBatchService.addQuantity(productBatch, quantity));
     }
 
     @Test
     @DisplayName("Should remove quantity from batch")
     void removeQuantity() {
-        Long quantity = 10L;
+        Integer quantity = 10;
         productBatchService.removeQuantity(productBatch, quantity);
 
         verify(productBatchRepository, times(1)).save(productBatchArgumentCaptor.capture());
         ProductBatch saved = productBatchArgumentCaptor.getValue();
 
-        assertEquals(0L, saved.getQuantity());
+        assertEquals(0, saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should throw exception if quantity less or equal to 0")
     void removeQuantityThrowException() {
-        Long quantity = 0L;
+        Integer quantity = 0;
 
-        Throwable exception = assertThrows(Exception.class, () -> {
-            productBatchService.removeQuantity(productBatch, quantity);
-        });
+        Throwable exception = assertThrows(Exception.class, () -> productBatchService.removeQuantity(productBatch, quantity));
 
         assertEquals("Quantidade deve ser maior que 0", exception.getMessage());
     }
@@ -106,11 +103,9 @@ class ProductBatchServiceImplTest {
     @Test
     @DisplayName("Should throw exception if insufficient quantity")
     void removeQuantityThrowExceptionQuantity() {
-        Long quantity = 11L;
+        Integer quantity = 11;
 
-        Throwable exception = assertThrows(Exception.class, () -> {
-            productBatchService.removeQuantity(productBatch, quantity);
-        });
+        Throwable exception = assertThrows(Exception.class, () -> productBatchService.removeQuantity(productBatch, quantity));
 
         assertEquals("Produto com estoque insuficiente", exception.getMessage());
     }

@@ -13,8 +13,8 @@ interface ProductService {
 
     void deleteById(Long id)
 
-    void inventoryIncrease(Product product, ProductBatch productBatch, Long quantity, String observation)
+    void inventoryIncrease(Product product, ProductBatch productBatch, Integer quantity, String observation)
 
-    void inventoryDecrease(Product product, ProductBatch productBatch, Long quantity, String observation)
+    void inventoryDecrease(Product product, ProductBatch productBatch, Integer quantity, String observation)
 
 }
