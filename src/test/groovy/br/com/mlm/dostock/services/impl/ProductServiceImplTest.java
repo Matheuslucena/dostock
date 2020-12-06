@@ -2,11 +2,13 @@ package br.com.mlm.dostock.services.impl;
 
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
+import br.com.mlm.dostock.domain.Tag;
 import br.com.mlm.dostock.repositories.ProductBatchRepository;
 import br.com.mlm.dostock.repositories.ProductLogRepository;
 import br.com.mlm.dostock.repositories.ProductRepository;
 import br.com.mlm.dostock.services.ProductBatchService;
 import br.com.mlm.dostock.services.ProductLogService;
+import br.com.mlm.dostock.services.TagService;
 import br.com.mlm.dostock.util.types.ProductLogType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +22,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,6 +50,9 @@ class ProductServiceImplTest {
     @Mock
     ProductLogService productLogService;
 
+    @Mock
+    TagService tagService;
+
     @InjectMocks
     ProductServiceImpl productService;
 
@@ -64,6 +71,11 @@ class ProductServiceImplTest {
         product1.setBatchRequired(false);
         product1.setObservation("Observacao produto 01");
         product1.setQuantity(10);
+        Set<Tag> tags = new HashSet<>();
+        Tag tag1 = new Tag();
+        tag1.setName("Tag 01");
+        tags.add(tag1);
+        product1.setTags(tags);
     }
 
     @Test
@@ -76,7 +88,8 @@ class ProductServiceImplTest {
     @Test
     @DisplayName("Should save a product")
     void save() {
-        productService.save(new Product());
+        productService.save(product1);
+        verify(tagService, times(1)).saveAll(anySet());
         verify(productRepository).save(any(Product.class));
     }
 

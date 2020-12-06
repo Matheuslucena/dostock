@@ -2,6 +2,7 @@ package br.com.mlm.dostock.controller;
 
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
+import br.com.mlm.dostock.domain.Tag;
 import br.com.mlm.dostock.dto.InventoryDTO;
 import br.com.mlm.dostock.dto.ProductDTO;
 import br.com.mlm.dostock.dto.mapper.ProductMapper;
@@ -21,7 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
@@ -64,6 +67,11 @@ class ProductControllerTest {
         productDTO = new ProductDTO();
         productDTO.setName("Product Test 99");
         productDTO.setCode("999");
+        Tag tag1 = new Tag();
+        tag1.setName("tag1");
+        Set<Tag> tags = new HashSet<>();
+        tags.add(tag1);
+        productDTO.setTags(tags);
 
         inventoryDTO = new InventoryDTO();
         inventoryDTO.setProductBatchId(1L);
