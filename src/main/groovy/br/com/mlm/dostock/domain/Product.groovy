@@ -5,13 +5,11 @@ import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
 import org.hibernate.annotations.Where
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Version
+import javax.persistence.*
 
 @Entity
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "update product set deleted=true where id=?")
+@SQLDelete(sql = "UPDATE product SET deleted=true WHERE id=? and version=?")
 class Product extends BaseEntity{
 
     @Version
@@ -39,5 +37,8 @@ class Product extends BaseEntity{
     Date lastUpdated
 
     Boolean deleted = false
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    Set<Tag> tags
 
 }
