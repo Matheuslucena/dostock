@@ -1,11 +1,15 @@
 package br.com.mlm.dostock.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
 import org.hibernate.annotations.Where
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.OneToMany
+import javax.persistence.Version
 
 @Entity
 @Where(clause = "deleted = false")
@@ -38,7 +42,10 @@ class Product extends BaseEntity{
 
     Boolean deleted = false
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany
     Set<Tag> tags
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "product")
+    Set<ProductBatch> batches
 }

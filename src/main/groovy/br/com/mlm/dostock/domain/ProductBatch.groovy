@@ -11,8 +11,8 @@ class ProductBatch extends BaseEntity{
     Integer quantity = 0
 
     @Temporal(TemporalType.TIMESTAMP)
-    Date validate
+    Date expirationDate
 
-    @OneToOne
+    @ManyToOne
     Product product
 }

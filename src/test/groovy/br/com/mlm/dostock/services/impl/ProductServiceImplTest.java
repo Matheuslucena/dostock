@@ -128,7 +128,7 @@ class ProductServiceImplTest {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
         productBatch.setQuantity(10);
-        productBatch.setValidate(new Date());
+        productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
         String obs = "Teste";
@@ -174,7 +174,7 @@ class ProductServiceImplTest {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
         productBatch.setQuantity(10);
-        productBatch.setValidate(new Date());
+        productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
         String obs = "Teste";
@@ -182,7 +182,7 @@ class ProductServiceImplTest {
 
         productService.inventoryDecrease(product1, productBatch, quantity, obs);
 
-        verify(productBatchService, times(1)).addQuantity(any(), any());
+        verify(productBatchService, times(1)).removeQuantity(any(), any());
         verify(productLogService, times(1)).register(product1, productBatch, quantity, obs, ProductLogType.DECREASE);
         verify(productRepository, times(1)).save(productCaptor.capture());
 
@@ -200,7 +200,7 @@ class ProductServiceImplTest {
 
         productService.inventoryDecrease(product1, null, quantity, obs);
 
-        verify(productBatchService, times(0)).addQuantity(any(), any());
+        verify(productBatchService, times(0)).removeQuantity(any(), any());
         verify(productLogService, times(1)).register(product1, null, quantity, obs, ProductLogType.DECREASE);
         verify(productRepository, times(1)).save(productCaptor.capture());
 

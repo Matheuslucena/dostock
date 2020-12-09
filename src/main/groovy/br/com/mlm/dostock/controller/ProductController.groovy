@@ -60,7 +60,17 @@ class ProductController {
     @ResponseStatus(HttpStatus.OK)
     void inventoryIncrease(@PathVariable Long id, @Valid @RequestBody InventoryDTO inventoryDTO){
         Product product = productRepository.findById(id).orElse(null)
-        ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatchId).orElse(null)
+        ProductBatch productBatch = null
+        def productBatchTemp = inventoryDTO.productBatch
+        if(productBatchTemp) {
+            productBatch = productBatchTemp?.id ? productBatchRepository.findById(productBatchTemp?.id).orElse(null) : null
+            if(!productBatch && (productBatchTemp?.number || productBatchTemp?.expirationDate)) {
+                productBatch = new ProductBatch()
+                productBatch.number = productBatchTemp?.number
+                productBatch.expirationDate = productBatchTemp?.expirationDate
+                productBatch.product = product
+            }
+        }
         productService.inventoryIncrease(product, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 
@@ -68,7 +78,7 @@ class ProductController {
     @ResponseStatus(HttpStatus.OK)
     void inventoryDecrease(@PathVariable Long id, @Valid @RequestBody InventoryDTO inventoryDTO){
         Product product = productRepository.findById(id).orElse(null)
-        ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatchId).orElse(null)
+        ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatch.id).orElse(null)
         productService.inventoryDecrease(product, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 }

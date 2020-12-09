@@ -4,6 +4,7 @@ import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
 import br.com.mlm.dostock.domain.Tag;
 import br.com.mlm.dostock.dto.InventoryDTO;
+import br.com.mlm.dostock.dto.ProductBatchDTO;
 import br.com.mlm.dostock.dto.ProductDTO;
 import br.com.mlm.dostock.dto.mapper.ProductMapper;
 import br.com.mlm.dostock.repositories.ProductBatchRepository;
@@ -74,7 +75,9 @@ class ProductControllerTest {
         productDTO.setTags(tags);
 
         inventoryDTO = new InventoryDTO();
-        inventoryDTO.setProductBatchId(1L);
+        ProductBatchDTO pb = new ProductBatchDTO();
+        pb.setId(1L);
+        inventoryDTO.setProductBatch(pb);
         inventoryDTO.setQuantity(10);
         inventoryDTO.setObservation("Test Product Input");
 
@@ -161,7 +164,7 @@ class ProductControllerTest {
     @DisplayName("Should not add stock to product")
     @Test
     void inventoryIncreaseInvalid() throws Exception {
-        inventoryDTO.setProductBatchId(null);
+        inventoryDTO.setProductBatch(null);
         inventoryDTO.setQuantity(0);
 
         mockMvc.perform(post("/api/v1/product/{id}/increase", 1)
@@ -183,7 +186,7 @@ class ProductControllerTest {
     @DisplayName("Should not remove stock from product")
     @Test
     void inventoryDecreaseInvalid() throws Exception {
-        inventoryDTO.setProductBatchId(null);
+        inventoryDTO.setProductBatch(null);
         inventoryDTO.setQuantity(0);
 
         mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)

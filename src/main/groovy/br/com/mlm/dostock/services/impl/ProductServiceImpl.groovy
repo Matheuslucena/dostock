@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ProductServiceImpl implements ProductService{
@@ -47,13 +48,14 @@ class ProductServiceImpl implements ProductService{
 
     @Override
     Product update(Long id, Product product) {
-        Product productSaved = productRepository.findById(id).orElse(null)
-        productSaved.name = product.name
-        productSaved.code = product.code
-        productSaved.minimumLevel = product.minimumLevel
-        productSaved.batchRequired = product.batchRequired
-        productSaved.observation = product.observation
-        return productRepository.save(productSaved)
+        Product productToSave = productRepository.findById(id).orElse(null)
+        productToSave.name = product.name
+        productToSave.code = product.code
+        productToSave.minimumLevel = product.minimumLevel
+        productToSave.batchRequired = product.batchRequired
+        productToSave.observation = product.observation
+        productToSave.tags = product.tags
+        return this.save(productToSave)
     }
 
     @Override
@@ -67,6 +69,10 @@ class ProductServiceImpl implements ProductService{
             throw new Exception("Quantidade deve ser maior que 0")
         }
 
+        if(product.batchRequired && !productBatch){
+            throw new Exception("Lote não informado")
+        }
+
         if(productBatch){
             productBatchService.addQuantity(productBatch, quantity)
         }
@@ -76,14 +82,19 @@ class ProductServiceImpl implements ProductService{
         productRepository.save(product)
     }
 
+    @Transactional
     @Override
     void inventoryDecrease(Product product, ProductBatch productBatch, Integer quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
 
+        if(product.batchRequired && !productBatch){
+            throw new Exception("Lote não informado")
+        }
+
         if(productBatch){
-            productBatchService.addQuantity(productBatch, quantity)
+            productBatchService.removeQuantity(productBatch, quantity)
         }
         productLogService.register(product, productBatch, quantity, observation, ProductLogType.DECREASE)
         product.quantity -= quantity

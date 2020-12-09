@@ -60,7 +60,7 @@ class ProductLogServiceImplTest {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
         productBatch.setQuantity(10);
-        productBatch.setValidate(new Date());
+        productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
         Integer quantity = 5;
@@ -81,7 +81,7 @@ class ProductLogServiceImplTest {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
         productBatch.setQuantity(10);
-        productBatch.setValidate(new Date());
+        productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
         Integer quantity = 5;

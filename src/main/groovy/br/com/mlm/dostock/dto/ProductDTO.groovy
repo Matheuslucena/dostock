@@ -12,9 +12,6 @@ class ProductDTO {
     String code
 
     @Min(0L)
-    Integer quantity
-
-    @Min(0L)
     Integer minimumLevel
 
     Boolean batchRequired = Boolean.FALSE
