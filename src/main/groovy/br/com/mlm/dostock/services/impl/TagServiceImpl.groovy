@@ -3,6 +3,7 @@ package br.com.mlm.dostock.services.impl
 import br.com.mlm.dostock.domain.Tag
 import br.com.mlm.dostock.repositories.TagRepository
 import br.com.mlm.dostock.services.TagService
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,6 +12,12 @@ class TagServiceImpl implements TagService{
 
     TagServiceImpl(TagRepository tagRepository) {
         this.tagRepository = tagRepository
+    }
+
+    @Override
+    List<Tag> list() {
+        Sort sortObj = Sort.by("name").ascending()
+        return tagRepository.findAll(sortObj) as List<Tag>
     }
 
     @Override

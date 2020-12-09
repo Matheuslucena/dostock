@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 
 import java.util.HashSet;
 
@@ -20,6 +21,12 @@ class TagServiceImplTest {
 
     @InjectMocks
     TagServiceImpl tagService;
+
+    @Test
+    void list(){
+        tagService.list();
+        verify(tagRepository, times(1)).findAll(any(Sort.class));
+    }
 
     @Test
     void save() {
