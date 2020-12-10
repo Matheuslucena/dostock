@@ -19,4 +19,6 @@ class ProductDTO {
     Set<Tag> tags = []
 
     String observation
+
+    CategoryDTO category
 }

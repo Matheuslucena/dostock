@@ -1,11 +1,13 @@
 package br.com.mlm.dostock.services.impl;
 
+import br.com.mlm.dostock.domain.Category;
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
 import br.com.mlm.dostock.domain.Tag;
 import br.com.mlm.dostock.repositories.ProductBatchRepository;
 import br.com.mlm.dostock.repositories.ProductLogRepository;
 import br.com.mlm.dostock.repositories.ProductRepository;
+import br.com.mlm.dostock.services.CategoryService;
 import br.com.mlm.dostock.services.ProductBatchService;
 import br.com.mlm.dostock.services.ProductLogService;
 import br.com.mlm.dostock.services.TagService;
@@ -53,6 +55,9 @@ class ProductServiceImplTest {
     @Mock
     TagService tagService;
 
+    @Mock
+    CategoryService categoryService;
+
     @InjectMocks
     ProductServiceImpl productService;
 
@@ -76,6 +81,9 @@ class ProductServiceImplTest {
         tag1.setName("Tag 01");
         tags.add(tag1);
         product1.setTags(tags);
+        Category category = new Category();
+        category.setName("Computer");
+        product1.setCategory(category);
     }
 
     @Test
@@ -91,6 +99,7 @@ class ProductServiceImplTest {
         productService.save(product1);
         verify(tagService, times(1)).saveAll(anySet());
         verify(productRepository).save(any(Product.class));
+        verify(categoryService, times(1)).save(any(Category.class));
     }
 
     @Test
@@ -101,12 +110,17 @@ class ProductServiceImplTest {
         edit.setCode("54321");
         edit.setBatchRequired(true);
 
+        Category category = new Category();
+        category.setName("Monitor");
+        edit.setCategory(category);
+
         when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
 
         productService.update(1L, edit);
 
         verify(productRepository, times(1)).findById(1L);
         verify(productRepository, times(1)).save(productCaptor.capture());
+        verify(categoryService, times(1)).save(category);
 
         Product productUpdated = productCaptor.getValue();
 

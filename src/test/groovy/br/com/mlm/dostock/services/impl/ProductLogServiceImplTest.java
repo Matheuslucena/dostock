@@ -6,7 +6,6 @@ import br.com.mlm.dostock.domain.ProductLog;
 import br.com.mlm.dostock.repositories.ProductLogRepository;
 import br.com.mlm.dostock.util.types.ProductLogType;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -48,10 +48,25 @@ class ProductLogServiceImplTest {
         product1.setQuantity(10);
     }
 
-    @Disabled
     @Test
-    void list() {
+    void searchLog() {
+        Date dateInitial = new Date();
+        Date dateFinal = new Date();
+        Product product = new Product();
+        product.setId(1L);
 
+        ArgumentCaptor<Date> dateInitCaptor = ArgumentCaptor.forClass(Date.class);
+        ArgumentCaptor<Date> dateFinalCaptor = ArgumentCaptor.forClass(Date.class);
+        ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
+
+        productLogService.search(dateInitial, dateFinal, product, ProductLogType.INCREASE);
+
+        verify(productLogRepository, times(1))
+                .search(dateInitCaptor.capture(), dateFinalCaptor.capture(), productCaptor.capture(), any(ProductLogType.class));
+
+        assertEquals(dateInitial, dateInitCaptor.getValue());
+        assertEquals(dateFinal, dateFinalCaptor.getValue());
+        assertEquals(product, productCaptor.getValue());
     }
 
     @Test

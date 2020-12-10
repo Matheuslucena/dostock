@@ -170,8 +170,7 @@ class ProductControllerTest {
         mockMvc.perform(post("/api/v1/product/{id}/increase", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.quantity", is("must be greater than or equal to 1")))
-                .andExpect(jsonPath("$.productBatchId", is("must not be null")));
+                .andExpect(jsonPath("$.quantity", is("must be greater than or equal to 1")));
     }
 
     @DisplayName("Should remove stock from product")
@@ -192,8 +191,7 @@ class ProductControllerTest {
         mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.quantity", is("must be greater than or equal to 1")))
-                .andExpect(jsonPath("$.productBatchId", is("must not be null")));
+                .andExpect(jsonPath("$.quantity", is("must be greater than or equal to 1")));
     }
 
     protected String mapToJson(Object obj) throws JsonProcessingException {

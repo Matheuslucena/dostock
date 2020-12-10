@@ -6,10 +6,7 @@ import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
 import org.hibernate.annotations.Where
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.OneToMany
-import javax.persistence.Version
+import javax.persistence.*
 
 @Entity
 @Where(clause = "deleted = false")
@@ -48,6 +45,9 @@ class Product extends BaseEntity{
     @JsonBackReference
     @OneToMany(mappedBy = "product")
     Set<ProductBatch> batches
+
+    @OneToOne
+    Category category
 
     boolean equals(o) {
         if (this.is(o)) return true

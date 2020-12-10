@@ -1,13 +1,11 @@
 package br.com.mlm.dostock.services.impl
 
+import br.com.mlm.dostock.domain.Category
 import br.com.mlm.dostock.domain.Product
 import br.com.mlm.dostock.domain.ProductBatch
 import br.com.mlm.dostock.domain.Tag
 import br.com.mlm.dostock.repositories.ProductRepository
-import br.com.mlm.dostock.services.ProductBatchService
-import br.com.mlm.dostock.services.ProductLogService
-import br.com.mlm.dostock.services.ProductService
-import br.com.mlm.dostock.services.TagService
+import br.com.mlm.dostock.services.*
 import br.com.mlm.dostock.util.types.ProductLogType
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -22,12 +20,14 @@ class ProductServiceImpl implements ProductService{
     ProductBatchService productBatchService
     ProductLogService productLogService
     TagService tagService
+    CategoryService categoryService
 
-    ProductServiceImpl(ProductRepository productRepository, ProductBatchService productBatchService, ProductLogService productLogService, TagService tagService) {
+    ProductServiceImpl(ProductRepository productRepository, ProductBatchService productBatchService, ProductLogService productLogService, TagService tagService, CategoryService categoryService) {
         this.productRepository = productRepository
         this.productBatchService = productBatchService
         this.productLogService = productLogService
         this.tagService = tagService
+        this.categoryService = categoryService
     }
 
     @Override
@@ -43,6 +43,10 @@ class ProductServiceImpl implements ProductService{
         if(newTags?.size()){
             tagService.saveAll(newTags)
         }
+        if(product.category && !product.category?.id){
+            Category category = categoryService.save(product.category)
+            product.category = category
+        }
         return productRepository.save(product)
     }
 
@@ -55,6 +59,11 @@ class ProductServiceImpl implements ProductService{
         productToSave.batchRequired = product.batchRequired
         productToSave.observation = product.observation
         productToSave.tags = product.tags
+        if(product.category && !product.category?.id){
+            Category category = categoryService.save(product.category)
+            product.category = category
+        }
+        productToSave.category = product.category
         return this.save(productToSave)
     }
 
