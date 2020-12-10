@@ -48,4 +48,14 @@ class Product extends BaseEntity{
     @JsonBackReference
     @OneToMany(mappedBy = "product")
     Set<ProductBatch> batches
+
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        Product product = (Product) o
+
+        if (id != product.id) return false
+        return true
+    }
 }

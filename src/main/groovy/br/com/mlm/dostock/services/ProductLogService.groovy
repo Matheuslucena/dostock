@@ -7,7 +7,7 @@ import br.com.mlm.dostock.util.types.ProductLogType
 
 interface ProductLogService {
 
-    List<ProductLog> list(Integer max, Integer offset, String sort, String order)
+    List<ProductLog> search(Date dateInitial, Date dateFinal, Product product, ProductLogType logType)
 
     void register(Product product, ProductBatch productBatch, Integer quantity, String observation, ProductLogType productLogType)
 

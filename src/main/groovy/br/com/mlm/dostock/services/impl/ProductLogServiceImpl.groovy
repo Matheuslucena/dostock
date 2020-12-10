@@ -18,8 +18,8 @@ class ProductLogServiceImpl implements ProductLogService {
     }
 
     @Override
-    List<ProductLog> list(Integer max, Integer offset, String sort, String order) {
-        return null
+    List<ProductLog> search(Date dateInitial, Date dateFinal, Product product, ProductLogType logType) {
+        return productLogRepository.search(dateInitial, dateFinal, product, logType)
     }
 
     @Override
