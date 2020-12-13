@@ -1,10 +1,12 @@
 package br.com.mlm.dostock.controller
 
+import br.com.mlm.dostock.domain.Folder
 import br.com.mlm.dostock.domain.Product
 import br.com.mlm.dostock.domain.ProductBatch
 import br.com.mlm.dostock.dto.InventoryDTO
 import br.com.mlm.dostock.dto.ProductDTO
 import br.com.mlm.dostock.dto.mapper.ProductMapper
+import br.com.mlm.dostock.repositories.FolderRepository
 import br.com.mlm.dostock.repositories.ProductBatchRepository
 import br.com.mlm.dostock.repositories.ProductRepository
 import br.com.mlm.dostock.services.ProductService
@@ -25,11 +27,15 @@ class ProductController {
 
     ProductMapper productMapper
 
-    ProductController(ProductService productService, ProductRepository productRepository, ProductBatchRepository productBatchRepository, ProductMapper productMapper) {
+    FolderRepository folderRepository
+
+    ProductController(ProductService productService, ProductRepository productRepository,
+                      ProductBatchRepository productBatchRepository, ProductMapper productMapper, FolderRepository folderRepository) {
         this.productService = productService
         this.productRepository = productRepository
         this.productBatchRepository = productBatchRepository
         this.productMapper = productMapper
+        this.folderRepository = folderRepository
     }
 
     @GetMapping("/")
@@ -71,7 +77,11 @@ class ProductController {
                 productBatch.product = product
             }
         }
-        productService.inventoryIncrease(product, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
+        Folder folder = null
+        if(inventoryDTO.folder){
+            folder = folderRepository.findById(inventoryDTO.folder.id).orElse(null)
+        }
+        productService.inventoryIncrease(product, folder, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 
     @PostMapping("/{id}/decrease")
@@ -79,6 +89,7 @@ class ProductController {
     void inventoryDecrease(@PathVariable Long id, @Valid @RequestBody InventoryDTO inventoryDTO){
         Product product = productRepository.findById(id).orElse(null)
         ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatch.id).orElse(null)
-        productService.inventoryDecrease(product, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
+        Folder folder = folderRepository.findById(inventoryDTO.folder.id).orElse(null)
+        productService.inventoryDecrease(product, folder, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 }

@@ -1,6 +1,6 @@
 package br.com.mlm.dostock.services.impl
 
-import br.com.mlm.dostock.domain.Category
+import br.com.mlm.dostock.domain.Folder
 import br.com.mlm.dostock.domain.Product
 import br.com.mlm.dostock.domain.ProductBatch
 import br.com.mlm.dostock.domain.Tag
@@ -20,14 +20,15 @@ class ProductServiceImpl implements ProductService{
     ProductBatchService productBatchService
     ProductLogService productLogService
     TagService tagService
-    CategoryService categoryService
+    ProductFolderService productFolderService
 
-    ProductServiceImpl(ProductRepository productRepository, ProductBatchService productBatchService, ProductLogService productLogService, TagService tagService, CategoryService categoryService) {
+    ProductServiceImpl(ProductRepository productRepository, ProductBatchService productBatchService,
+                       ProductLogService productLogService, TagService tagService, ProductFolderService productFolderService) {
         this.productRepository = productRepository
         this.productBatchService = productBatchService
         this.productLogService = productLogService
         this.tagService = tagService
-        this.categoryService = categoryService
+        this.productFolderService = productFolderService
     }
 
     @Override
@@ -43,10 +44,6 @@ class ProductServiceImpl implements ProductService{
         if(newTags?.size()){
             tagService.saveAll(newTags)
         }
-        if(product.category && !product.category?.id){
-            Category category = categoryService.save(product.category)
-            product.category = category
-        }
         return productRepository.save(product)
     }
 
@@ -59,11 +56,6 @@ class ProductServiceImpl implements ProductService{
         productToSave.batchRequired = product.batchRequired
         productToSave.observation = product.observation
         productToSave.tags = product.tags
-        if(product.category && !product.category?.id){
-            Category category = categoryService.save(product.category)
-            product.category = category
-        }
-        productToSave.category = product.category
         return this.save(productToSave)
     }
 
@@ -73,7 +65,7 @@ class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    void inventoryIncrease(Product product, ProductBatch productBatch, Integer quantity, String observation) {
+    void inventoryIncrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -85,7 +77,12 @@ class ProductServiceImpl implements ProductService{
         if(productBatch){
             productBatchService.addQuantity(productBatch, quantity)
         }
-        productLogService.register(product, productBatch, quantity, observation, ProductLogType.INCREASE)
+
+        if(folder){
+            productFolderService.addQuantity(product, folder, new BigDecimal(quantity))
+        }
+
+        productLogService.register(product, folder, productBatch, quantity, observation, ProductLogType.INCREASE)
         product.quantity += quantity
 
         productRepository.save(product)
@@ -93,7 +90,7 @@ class ProductServiceImpl implements ProductService{
 
     @Transactional
     @Override
-    void inventoryDecrease(Product product, ProductBatch productBatch, Integer quantity, String observation) {
+    void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -105,7 +102,12 @@ class ProductServiceImpl implements ProductService{
         if(productBatch){
             productBatchService.removeQuantity(productBatch, quantity)
         }
-        productLogService.register(product, productBatch, quantity, observation, ProductLogType.DECREASE)
+
+        if(folder){
+            productFolderService.removeQuantity(product, folder, new BigDecimal(quantity))
+        }
+
+        productLogService.register(product, folder, productBatch, quantity, observation, ProductLogType.DECREASE)
         product.quantity -= quantity
 
         if(product.quantity < 0){

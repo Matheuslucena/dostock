@@ -1,5 +1,6 @@
 package br.com.mlm.dostock.services.impl
 
+import br.com.mlm.dostock.domain.Folder
 import br.com.mlm.dostock.domain.Product
 import br.com.mlm.dostock.domain.ProductBatch
 import br.com.mlm.dostock.domain.ProductLog
@@ -23,11 +24,12 @@ class ProductLogServiceImpl implements ProductLogService {
     }
 
     @Override
-    void register(Product product, ProductBatch productBatch, Integer quantity, String observation, ProductLogType logType) {
+    void register(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation, ProductLogType logType) {
         ProductLog productLog = new ProductLog()
         productLog.quantity = quantity
         productLog.observation = observation
         productLog.product = product
+        productLog.folder = folder
         productLog.productBatch = productBatch
         productLog.logType = logType
 

@@ -6,7 +6,10 @@ import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
 import org.hibernate.annotations.Where
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.OneToMany
+import javax.persistence.Version
 
 @Entity
 @Where(clause = "deleted = false")
@@ -46,8 +49,8 @@ class Product extends BaseEntity{
     @OneToMany(mappedBy = "product")
     Set<ProductBatch> batches
 
-    @OneToOne
-    Category category
+    @OneToMany
+    Set<ProductFolder> productFolders
 
     boolean equals(o) {
         if (this.is(o)) return true

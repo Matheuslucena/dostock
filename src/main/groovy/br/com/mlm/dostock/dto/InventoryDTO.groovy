@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull
 class InventoryDTO {
     ProductBatchDTO productBatch
 
+    FolderDTO folder
+
     @Min(1L)
     @NotNull
     Integer quantity

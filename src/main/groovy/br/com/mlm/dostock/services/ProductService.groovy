@@ -1,5 +1,6 @@
 package br.com.mlm.dostock.services
 
+import br.com.mlm.dostock.domain.Folder
 import br.com.mlm.dostock.domain.Product
 import br.com.mlm.dostock.domain.ProductBatch
 
@@ -13,8 +14,8 @@ interface ProductService {
 
     void deleteById(Long id)
 
-    void inventoryIncrease(Product product, ProductBatch productBatch, Integer quantity, String observation)
+    void inventoryIncrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation)
 
-    void inventoryDecrease(Product product, ProductBatch productBatch, Integer quantity, String observation)
+    void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation)
 
 }

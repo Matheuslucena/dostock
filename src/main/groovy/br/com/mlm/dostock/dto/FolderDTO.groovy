@@ -2,11 +2,11 @@ package br.com.mlm.dostock.dto
 
 import javax.validation.constraints.NotBlank
 
-class CategoryDTO {
+class FolderDTO {
     Long id
 
     @NotBlank
     String name
 
-    CategoryDTO parentCatetory
+    FolderDTO parentFolder
 }

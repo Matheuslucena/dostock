@@ -14,6 +14,9 @@ class ProductLog extends BaseEntity{
     @OneToOne
     ProductBatch productBatch
 
+    @OneToOne
+    Folder folder
+
     @Column(nullable = false)
     Integer quantity
 

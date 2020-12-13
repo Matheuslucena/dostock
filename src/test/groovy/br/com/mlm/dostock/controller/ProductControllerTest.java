@@ -3,10 +3,12 @@ package br.com.mlm.dostock.controller;
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
 import br.com.mlm.dostock.domain.Tag;
+import br.com.mlm.dostock.dto.FolderDTO;
 import br.com.mlm.dostock.dto.InventoryDTO;
 import br.com.mlm.dostock.dto.ProductBatchDTO;
 import br.com.mlm.dostock.dto.ProductDTO;
 import br.com.mlm.dostock.dto.mapper.ProductMapper;
+import br.com.mlm.dostock.repositories.FolderRepository;
 import br.com.mlm.dostock.repositories.ProductBatchRepository;
 import br.com.mlm.dostock.repositories.ProductRepository;
 import br.com.mlm.dostock.services.ProductService;
@@ -49,6 +51,9 @@ class ProductControllerTest {
     @MockBean
     ProductMapper productMapper;
 
+    @MockBean
+    FolderRepository folderRepository;
+
     @Autowired
     MockMvc mockMvc;
 
@@ -83,8 +88,8 @@ class ProductControllerTest {
 
         given(productRepository.findById(anyLong())).willReturn(java.util.Optional.ofNullable(products.get(0)));
         given(productBatchRepository.findById(anyLong())).willReturn(java.util.Optional.of(new ProductBatch()));
-        willDoNothing().given(productService).inventoryIncrease(any(), any(), anyInt(), anyString());
-        willDoNothing().given(productService).inventoryDecrease(any(), any(), anyInt(), anyString());
+        willDoNothing().given(productService).inventoryIncrease(any(), any(), any(), anyInt(), anyString());
+        willDoNothing().given(productService).inventoryDecrease(any(), any(), any(), anyInt(), anyString());
         given(productMapper.toDomain(any())).willReturn(products.get(0));
         given(productService.save(any())).willReturn(products.get(0));
     }
@@ -176,7 +181,10 @@ class ProductControllerTest {
     @DisplayName("Should remove stock from product")
     @Test
     void inventoryDecrease() throws Exception {
-
+        FolderDTO folder = new FolderDTO();
+        folder.setId(1L);
+        folder.setName("Main Inventory");
+        inventoryDTO.setFolder(folder);
         mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
                 .andExpect(status().isOk());
@@ -187,6 +195,10 @@ class ProductControllerTest {
     void inventoryDecreaseInvalid() throws Exception {
         inventoryDTO.setProductBatch(null);
         inventoryDTO.setQuantity(0);
+        FolderDTO folder = new FolderDTO();
+        folder.setId(1L);
+        folder.setName("Main Inventory");
+        inventoryDTO.setFolder(folder);
 
         mockMvc.perform(post("/api/v1/product/{id}/decrease", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))

@@ -1,5 +1,6 @@
 package br.com.mlm.dostock.services.impl;
 
+import br.com.mlm.dostock.domain.Folder;
 import br.com.mlm.dostock.domain.Product;
 import br.com.mlm.dostock.domain.ProductBatch;
 import br.com.mlm.dostock.domain.ProductLog;
@@ -78,10 +79,14 @@ class ProductLogServiceImplTest {
         productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
+        Folder folder = new Folder();
+        folder.setId(1L);
+        folder.setName("Main Inventory");
+
         Integer quantity = 5;
         String observation = "New Input";
 
-        productLogService.register(product1, productBatch, quantity, observation, ProductLogType.INCREASE);
+        productLogService.register(product1, folder, productBatch, quantity, observation, ProductLogType.INCREASE);
         verify(productLogRepository, times(1)).save(productLogArgumentCaptor.capture());
 
         ProductLog productLog = productLogArgumentCaptor.getValue();
@@ -99,10 +104,14 @@ class ProductLogServiceImplTest {
         productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
+        Folder folder = new Folder();
+        folder.setId(1L);
+        folder.setName("Main Inventory");
+
         Integer quantity = 5;
         String observation = "New Input";
 
-        productLogService.register(product1, productBatch, quantity, observation, ProductLogType.DECREASE);
+        productLogService.register(product1, folder, productBatch, quantity, observation, ProductLogType.DECREASE);
         verify(productLogRepository, times(1)).save(productLogArgumentCaptor.capture());
 
         ProductLog productLog = productLogArgumentCaptor.getValue();
