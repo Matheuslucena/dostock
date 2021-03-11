@@ -65,7 +65,7 @@ class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    void inventoryIncrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation) {
+    void inventoryIncrease(Product product, Folder folder, ProductBatch productBatch, BigDecimal quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -90,7 +90,7 @@ class ProductServiceImpl implements ProductService{
 
     @Transactional
     @Override
-    void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation) {
+    void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, BigDecimal quantity, String observation) {
         if(quantity <= 0){
             throw new Exception("Quantidade deve ser maior que 0")
         }

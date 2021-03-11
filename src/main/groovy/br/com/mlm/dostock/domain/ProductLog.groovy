@@ -18,7 +18,7 @@ class ProductLog extends BaseEntity{
     Folder folder
 
     @Column(nullable = false)
-    Integer quantity
+    BigDecimal quantity
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

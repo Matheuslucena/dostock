@@ -14,9 +14,9 @@ interface ProductService {
 
     void deleteById(Long id)
 
-    void inventoryIncrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation)
+    void inventoryIncrease(Product product, Folder folder, ProductBatch productBatch, BigDecimal quantity, String observation)
 
-    void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation)
+    void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, BigDecimal quantity, String observation)
 
     List<Product> search(String name, String code, Long tagId, Long folderId)
 

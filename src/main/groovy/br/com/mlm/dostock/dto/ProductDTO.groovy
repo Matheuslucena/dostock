@@ -12,7 +12,7 @@ class ProductDTO {
     String code
 
     @Min(0L)
-    Integer minimumLevel
+    BigDecimal minimumLevel
 
     Boolean batchRequired = Boolean.FALSE
 

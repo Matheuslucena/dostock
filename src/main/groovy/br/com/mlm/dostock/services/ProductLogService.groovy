@@ -10,6 +10,6 @@ interface ProductLogService {
 
     List<ProductLog> search(Date dateInitial, Date dateFinal, Product product, ProductLogType logType)
 
-    void register(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation, ProductLogType productLogType)
+    void register(Product product, Folder folder, ProductBatch productBatch, BigDecimal quantity, String observation, ProductLogType productLogType)
 
 }

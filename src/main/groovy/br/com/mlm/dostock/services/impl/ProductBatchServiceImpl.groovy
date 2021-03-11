@@ -26,7 +26,7 @@ class ProductBatchServiceImpl implements ProductBatchService{
     }
 
     @Override
-    ProductBatch addQuantity(ProductBatch productBatch, Integer quantity) {
+    ProductBatch addQuantity(ProductBatch productBatch, BigDecimal quantity) {
         if(quantity <= 0 ){
             throw new Exception("Quantidade deve ser maior que 0")
         }
@@ -35,7 +35,7 @@ class ProductBatchServiceImpl implements ProductBatchService{
     }
 
     @Override
-    ProductBatch removeQuantity(ProductBatch productBatch, Integer quantity) {
+    ProductBatch removeQuantity(ProductBatch productBatch, BigDecimal quantity) {
         if(quantity <= 0 ){
             throw new Exception("Quantidade deve ser maior que 0")
         }

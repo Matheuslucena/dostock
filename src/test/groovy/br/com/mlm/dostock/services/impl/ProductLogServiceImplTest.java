@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,10 +44,10 @@ class ProductLogServiceImplTest {
         product1.setId(1L);
         product1.setName("Produto teste 01");
         product1.setCode("12345");
-        product1.setMinimumLevel(10);
+        product1.setMinimumLevel(new BigDecimal(10));
         product1.setBatchRequired(false);
         product1.setObservation("Observacao produto 01");
-        product1.setQuantity(10);
+        product1.setQuantity(new BigDecimal(10));
     }
 
     @Test
@@ -75,7 +76,7 @@ class ProductLogServiceImplTest {
     void registerInput() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10);
+        productBatch.setQuantity(new BigDecimal(10));
         productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
@@ -83,7 +84,7 @@ class ProductLogServiceImplTest {
         folder.setId(1L);
         folder.setName("Main Inventory");
 
-        Integer quantity = 5;
+        BigDecimal quantity = new BigDecimal(5);
         String observation = "New Input";
 
         productLogService.register(product1, folder, productBatch, quantity, observation, ProductLogType.INCREASE);
@@ -100,7 +101,7 @@ class ProductLogServiceImplTest {
     void registerOutput() {
         ProductBatch productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10);
+        productBatch.setQuantity(new BigDecimal(10));
         productBatch.setExpirationDate(new Date());
         productBatch.setProduct(product1);
 
@@ -108,7 +109,7 @@ class ProductLogServiceImplTest {
         folder.setId(1L);
         folder.setName("Main Inventory");
 
-        Integer quantity = 5;
+        BigDecimal quantity = new BigDecimal(5);
         String observation = "New Input";
 
         productLogService.register(product1, folder, productBatch, quantity, observation, ProductLogType.DECREASE);

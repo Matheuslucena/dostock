@@ -1,6 +1,7 @@
 package br.com.mlm.dostock.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
@@ -22,8 +23,8 @@ class Product extends BaseEntity{
     @Column(unique = true)
     String code
 
-    Integer quantity = 0
-    Integer minimumLevel
+    BigDecimal quantity = 0
+    BigDecimal minimumLevel
     Boolean batchRequired = false
 
     @Column(columnDefinition = 'text')
@@ -46,6 +47,7 @@ class Product extends BaseEntity{
     @OneToMany(mappedBy = "product")
     Set<ProductBatch> batches
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     Set<ProductFolder> productFolders = new HashSet<>()
 

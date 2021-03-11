@@ -24,6 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -65,7 +66,7 @@ class ProductControllerTest {
     @BeforeEach
     void setUp() {
         Product p1 = new Product();
-        p1.setQuantity(10);
+        p1.setQuantity(new BigDecimal(10));
         p1.setName("Product 01");
         p1.setCode("3333");
         products.add(p1);
@@ -83,13 +84,13 @@ class ProductControllerTest {
         ProductBatchDTO pb = new ProductBatchDTO();
         pb.setId(1L);
         inventoryDTO.setProductBatch(pb);
-        inventoryDTO.setQuantity(10);
+        inventoryDTO.setQuantity(new BigDecimal(10));
         inventoryDTO.setObservation("Test Product Input");
 
         given(productRepository.findById(anyLong())).willReturn(java.util.Optional.ofNullable(products.get(0)));
         given(productBatchRepository.findById(anyLong())).willReturn(java.util.Optional.of(new ProductBatch()));
-        willDoNothing().given(productService).inventoryIncrease(any(), any(), any(), anyInt(), anyString());
-        willDoNothing().given(productService).inventoryDecrease(any(), any(), any(), anyInt(), anyString());
+        willDoNothing().given(productService).inventoryIncrease(any(), any(), any(), any(), anyString());
+        willDoNothing().given(productService).inventoryDecrease(any(), any(), any(), any(), anyString());
         given(productMapper.toDomain(any())).willReturn(products.get(0));
         given(productService.save(any())).willReturn(products.get(0));
     }
@@ -170,7 +171,7 @@ class ProductControllerTest {
     @Test
     void inventoryIncreaseInvalid() throws Exception {
         inventoryDTO.setProductBatch(null);
-        inventoryDTO.setQuantity(0);
+        inventoryDTO.setQuantity(new BigDecimal(0));
 
         mockMvc.perform(post("/api/v1/product/{id}/increase", 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(inventoryDTO)))
@@ -194,7 +195,7 @@ class ProductControllerTest {
     @Test
     void inventoryDecreaseInvalid() throws Exception {
         inventoryDTO.setProductBatch(null);
-        inventoryDTO.setQuantity(0);
+        inventoryDTO.setQuantity(new BigDecimal(0));
         FolderDTO folder = new FolderDTO();
         folder.setId(1L);
         folder.setName("Main Inventory");

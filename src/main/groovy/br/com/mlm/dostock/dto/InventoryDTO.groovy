@@ -10,7 +10,7 @@ class InventoryDTO {
 
     @Min(1L)
     @NotNull
-    Integer quantity
+    BigDecimal quantity
 
     String observation
 }

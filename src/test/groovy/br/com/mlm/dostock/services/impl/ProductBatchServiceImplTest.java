@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,7 +40,7 @@ class ProductBatchServiceImplTest {
     void setUp() {
         productBatch = new ProductBatch();
         productBatch.setId(1L);
-        productBatch.setQuantity(10);
+        productBatch.setQuantity(new BigDecimal(10));
         productBatch.setExpirationDate(new Date());
         productBatch.setProduct(new Product());
     }
@@ -61,19 +62,19 @@ class ProductBatchServiceImplTest {
     @Test
     @DisplayName("Should add quantity to batch")
     void addQuantity() {
-        Integer quantity = 10;
+        BigDecimal quantity = new BigDecimal(10);
         productBatchService.addQuantity(productBatch, quantity);
 
         verify(productBatchRepository, times(1)).save(productBatchArgumentCaptor.capture());
         ProductBatch saved = productBatchArgumentCaptor.getValue();
 
-        assertEquals(20, saved.getQuantity());
+        assertEquals(new BigDecimal(20), saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should throw exception if quantity less or equal to 0")
     void addQuantityThrowException() {
-        Integer quantity = 0;
+        BigDecimal quantity = new BigDecimal(0);
 
         assertThrows(Exception.class, () -> productBatchService.addQuantity(productBatch, quantity));
     }
@@ -81,19 +82,19 @@ class ProductBatchServiceImplTest {
     @Test
     @DisplayName("Should remove quantity from batch")
     void removeQuantity() {
-        Integer quantity = 10;
+        BigDecimal quantity = new BigDecimal(10);
         productBatchService.removeQuantity(productBatch, quantity);
 
         verify(productBatchRepository, times(1)).save(productBatchArgumentCaptor.capture());
         ProductBatch saved = productBatchArgumentCaptor.getValue();
 
-        assertEquals(0, saved.getQuantity());
+        assertEquals(new BigDecimal(0), saved.getQuantity());
     }
 
     @Test
     @DisplayName("Should throw exception if quantity less or equal to 0")
     void removeQuantityThrowException() {
-        Integer quantity = 0;
+        BigDecimal quantity = new BigDecimal(0);
 
         Throwable exception = assertThrows(Exception.class, () -> productBatchService.removeQuantity(productBatch, quantity));
 
@@ -103,7 +104,7 @@ class ProductBatchServiceImplTest {
     @Test
     @DisplayName("Should throw exception if insufficient quantity")
     void removeQuantityThrowExceptionQuantity() {
-        Integer quantity = 11;
+        BigDecimal quantity = new BigDecimal(11);
 
         Throwable exception = assertThrows(Exception.class, () -> productBatchService.removeQuantity(productBatch, quantity));
 
