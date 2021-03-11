@@ -6,6 +6,6 @@ import br.com.mlm.dostock.dto.FoldersDTO
 interface FolderService {
     List<FoldersDTO> list()
     Folder save(Folder folder)
-    Folder update(Folder folder)
+    Folder update(Long id, Folder folder)
     void deleteById(Long id)
 }

@@ -18,15 +18,15 @@ class FolderServiceImpl implements FolderService{
     @Override
     List<FoldersDTO> list() {
         List<Folder> parent = folderRepository.findAllByParentFolderIsNull()
-        return categoryList(parent)
+        return folderList(parent)
     }
 
-    private List<FoldersDTO> categoryList(List<Folder> folders){
+    private List<FoldersDTO> folderList(List<Folder> folders){
         List<FoldersDTO> result = []
         folders?.sort{it.name}?.each { Folder folder ->
             FoldersDTO foldersDTO = new FoldersDTO([
                     folder: [id: folder.id, name: folder.name],
-                    subFolders: categoryList(folderRepository.findAllByParentFolder(folder))
+                    subFolders: folderList(folderRepository.findAllByParentFolder(folder))
             ])
             result.add(foldersDTO)
         }
@@ -39,11 +39,11 @@ class FolderServiceImpl implements FolderService{
     }
 
     @Override
-    Folder update(Folder folder) {
-        Folder categoryToSave = folderRepository.findById(folder.id).orElse(null)
-        categoryToSave.name = folder.name
-        categoryToSave.parentFolder = folder.parentFolder
-        return folderRepository.save(categoryToSave)
+    Folder update(Long id, Folder folder) {
+        Folder folderToSave = folderRepository.findById(id).orElse(null)
+        folderToSave.name = folder.name
+        folderToSave.parentFolder = folder.parentFolder
+        return folderRepository.save(folderToSave)
     }
 
     @Override

@@ -1,12 +1,10 @@
 package br.com.mlm.dostock.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.OneToMany
-import javax.persistence.OneToOne
+import javax.persistence.*
 
 @Entity
 @Where(clause = "deleted = false")
@@ -19,8 +17,9 @@ class Folder extends BaseEntity{
     @OneToOne
     Folder parentFolder
 
-    @OneToMany
-    Set<ProductFolder> productFolders
+    @JsonBackReference
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL)
+    Set<ProductFolder> productFolders = new HashSet<>()
 
     Boolean deleted = false
 }

@@ -84,7 +84,7 @@ class FolderServiceImplTest {
         folder1.setName("Computer");
         given(folderRepository.findById(any())).willReturn(java.util.Optional.of(new Folder()));
 
-        folderService.update(folder1);
+        folderService.update(1L, folder1);
 
         then(folderRepository).should(times(1)).save(categoryArgumentCaptor.capture());
         Folder category = categoryArgumentCaptor.getValue();

@@ -116,4 +116,9 @@ class ProductServiceImpl implements ProductService{
 
         productRepository.save(product)
     }
+
+    @Override
+    List<Product> search(String name, String code, Long tagId, Long folderId) {
+        return productRepository.search(name, code, tagId, folderId)
+    }
 }

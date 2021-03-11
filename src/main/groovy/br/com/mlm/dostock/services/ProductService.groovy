@@ -18,4 +18,6 @@ interface ProductService {
 
     void inventoryDecrease(Product product, Folder folder, ProductBatch productBatch, Integer quantity, String observation)
 
+    List<Product> search(String name, String code, Long tagId, Long folderId)
+
 }
