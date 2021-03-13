@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  psql:
+    image: postgres:13
+    restart: always
+    container_name: psql
+    hostname: psql
+    networks:
+      - net-backend
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: dostock
+      POSTGRES_PASSWORD: dostock
+
+  dostock:
+    image: dostock
+    build: .
+    restart: always
+    container_name: dostock
+    hostname: dostock
+    depends_on:
+      - psql
+    networks:
+      - net-backend
+    ports:
+      - "80:8080"
+    environment:
+      DB_HOST: psql
+      DB_PORT: 5432
+      DB_USER: dostock
+      DB_PASS: dostock
+
+networks:
+  net-backend:
+
+volumes:
+  db_data:

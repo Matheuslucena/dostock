@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/dostock
-    username: dostock
-    password: dostock
+    url: jdbc:postgresql://${db.host:127.0.0.1}:5432/dostock
+    username: ${db.user:dostock}
+    password: ${db.pass:dostock}
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
