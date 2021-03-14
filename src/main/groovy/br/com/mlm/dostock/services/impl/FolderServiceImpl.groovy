@@ -34,6 +34,12 @@ class FolderServiceImpl implements FolderService{
     }
 
     @Override
+    List<Folder> listAll() {
+        List<Folder> folders = folderRepository.findAllByDeleted(false)
+        return folders
+    }
+
+    @Override
     Folder save(Folder folder) {
         return folderRepository.save(folder)
     }

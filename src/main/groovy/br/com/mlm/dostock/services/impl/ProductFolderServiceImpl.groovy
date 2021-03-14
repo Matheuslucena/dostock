@@ -27,6 +27,9 @@ class ProductFolderServiceImpl implements ProductFolderService{
             productFolder = new ProductFolder([product: product, folder: folder])
         }
 
+        if(productFolder.quantity == null){
+            productFolder.quantity = 0
+        }
         productFolder.quantity += quantity
 
         productFolderRepository.save(productFolder)
@@ -39,6 +42,9 @@ class ProductFolderServiceImpl implements ProductFolderService{
             throw new Exception("Produto com estoque insuficiente")
         }
 
+        if(productFolder.quantity == null){
+            productFolder.quantity = 0
+        }
         productFolder.quantity -= quantity
 
         if(productFolder.quantity < 0){

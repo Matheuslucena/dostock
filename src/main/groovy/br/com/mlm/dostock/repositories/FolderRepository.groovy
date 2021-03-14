@@ -6,4 +6,5 @@ import org.springframework.data.repository.PagingAndSortingRepository
 interface FolderRepository extends PagingAndSortingRepository<Folder, Long>{
     List<Folder> findAllByParentFolderIsNull()
     List<Folder> findAllByParentFolder(Folder folder)
+    List<Folder> findAllByDeleted(Boolean deleted)
 }

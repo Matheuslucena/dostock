@@ -48,6 +48,11 @@ class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    Product findById(Long id) {
+        return productRepository.findById(id).orElse(null)
+    }
+
+    @Override
     Product update(Long id, Product product) {
         Product productToSave = productRepository.findById(id).orElse(null)
         productToSave.name = product.name

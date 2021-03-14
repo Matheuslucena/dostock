@@ -44,6 +44,12 @@ class ProductController {
         return productService.list(max, offset, sort, order)
     }
 
+    @GetMapping("/{id}")
+    Product edit(@PathVariable Long id){
+        Product product = productService.findById(id)
+        return product
+    }
+
     @PostMapping("/")
     Product save(@Valid @RequestBody ProductDTO productDTO) {
         Product product = productMapper.toDomain(productDTO)
@@ -88,8 +94,16 @@ class ProductController {
     @ResponseStatus(HttpStatus.OK)
     void inventoryDecrease(@PathVariable Long id, @Valid @RequestBody InventoryDTO inventoryDTO){
         Product product = productRepository.findById(id).orElse(null)
-        ProductBatch productBatch = productBatchRepository.findById(inventoryDTO.productBatch.id).orElse(null)
-        Folder folder = folderRepository.findById(inventoryDTO.folder.id).orElse(null)
+        ProductBatch productBatch = null
+        if(inventoryDTO.productBatch){
+            productBatch = productBatchRepository.findById(inventoryDTO.productBatch.id).orElse(null)
+        }
+
+        Folder folder = null
+        if(inventoryDTO.folder){
+            folder = folderRepository.findById(inventoryDTO.folder.id).orElse(null)
+        }
+
         productService.inventoryDecrease(product, folder, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
     }
 }

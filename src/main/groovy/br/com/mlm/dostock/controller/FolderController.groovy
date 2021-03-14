@@ -27,14 +27,19 @@ class FolderController {
         return folderService.list()
     }
 
+    @GetMapping("/listAll")
+    List<Folder> listAll() {
+        return folderService.listAll()?.sort{it.name}
+    }
+
     @PostMapping("/")
-    Folder save(@Valid FolderDTO folderDTO){
+    Folder save(@Valid @RequestBody FolderDTO folderDTO){
         Folder folder = folderMapper.toDomain(folderDTO)
         return folderService.save(folder)
     }
 
     @PutMapping("/{id}")
-    Folder update(@PathVariable Long id, @Valid FolderDTO folderDTO){
+    Folder update(@PathVariable Long id, @Valid @RequestBody FolderDTO folderDTO){
         Folder folder = folderMapper.toDomain(folderDTO)
         return folderService.update(id, folder)
     }

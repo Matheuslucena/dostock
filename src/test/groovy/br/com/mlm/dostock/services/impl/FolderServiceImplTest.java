@@ -71,6 +71,11 @@ class FolderServiceImplTest {
     }
 
     @Test
+    void listAll(){
+        assert(false);
+    }
+
+    @Test
     void save() {
         folderService.save(new Folder());
         then(folderRepository).should(times(1)).save(any(Folder.class));

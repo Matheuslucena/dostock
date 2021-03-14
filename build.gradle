@@ -27,3 +27,13 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+
+task copyClientResources(dependsOn: ':client:build', type: Copy) {
+    group = 'build'
+    description = 'Copy client resources into server'
+    from "${project(':client').projectDir}/build"
+    into "${buildDir}/resources/main/static"
+}
+
+bootJar.dependsOn copyClientResources
