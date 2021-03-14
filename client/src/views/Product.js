@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
-import {TreeItem, TreeView} from "@material-ui/lab";
-import {Container, Drawer, Toolbar} from "@material-ui/core";
-import {ChevronRight as ChevronRightIcon, ExpandMore as ExpandMoreIcon,} from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { TreeItem, TreeView } from "@material-ui/lab";
+import { Container, Drawer, Toolbar } from "@material-ui/core";
+import {
+  ChevronRight as ChevronRightIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "@material-ui/icons";
 import productApi from "../api/productApi";
 import ProductList from "../components/ProductList.js";
 
@@ -87,7 +90,7 @@ export default function Product() {
             defaultExpandIcon={<ChevronRightIcon />}
             onNodeSelect={(e, value) => handleSelectFolder(value)}
           >
-            <TreeItem nodeId="all-products" label="All Products"/>
+            <TreeItem nodeId="all-products" label="All Products" />
             {renderFolderTree(folders)}
           </TreeView>
         </div>

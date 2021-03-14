@@ -1,9 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
-import {makeStyles} from "@material-ui/core/styles";
-import {DataGrid} from "@material-ui/data-grid";
-import {KeyboardDatePicker, MuiPickersUtilsProvider,} from "@material-ui/pickers";
+import { makeStyles } from "@material-ui/core/styles";
+import { DataGrid } from "@material-ui/data-grid";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import {
   Button,
   Card,
@@ -45,7 +48,7 @@ const columns = [
   { field: "folder", headerName: "Folder", width: 230 },
   { field: "quantity", headerName: "Quantity", width: 130 },
   { field: "observation", headerName: "Observation", width: 230 },
-  { field: "logType", headerName: "Log Type", width: 150 }
+  { field: "logType", headerName: "Log Type", width: 150 },
 ];
 
 export default function Logs() {
@@ -165,7 +168,13 @@ export default function Logs() {
               </Grid>
             </Grid>
             <div style={{ height: 400, width: "100%" }}>
-              <DataGrid density="standard" sortingOrder="asc" rows={logs} columns={columns} pageSize={15} />
+              <DataGrid
+                density="standard"
+                sortingOrder="asc"
+                rows={logs}
+                columns={columns}
+                pageSize={15}
+              />
             </div>
           </CardContent>
         </Card>

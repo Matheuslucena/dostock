@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {makeStyles} from "@material-ui/core/styles";
-import {green} from "@material-ui/core/colors";
+import { makeStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
 import {
-    Button,
-    CircularProgress,
-    DialogActions,
-    DialogContent,
-    FormControl,
-    Grid,
-    IconButton,
-    InputLabel,
-    MenuItem,
-    Select,
-    TextField,
-    Tooltip,
+  Button,
+  CircularProgress,
+  DialogActions,
+  DialogContent,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip,
 } from "@material-ui/core";
-import {CreateNewFolder as CreateNewFolderIcon} from "@material-ui/icons";
+import { CreateNewFolder as CreateNewFolderIcon } from "@material-ui/icons";
 import FolderFormModal from "./FolderFormModal";
 import folderApi from "../api/folderApi";
 

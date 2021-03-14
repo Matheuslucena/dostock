@@ -1,9 +1,15 @@
 import "./App.css";
-import {fade, makeStyles} from "@material-ui/core/styles";
-import {AppBar, Button, InputBase, Toolbar, Typography,} from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import {
+  AppBar,
+  Button,
+  InputBase,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import Product from "./views/Product";
 import ProductNew from "./views/ProductNew";
 import ProductEdit from "./views/ProductEdit";

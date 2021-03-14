@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   CircularProgress,
@@ -15,7 +15,7 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-import {green} from "@material-ui/core/colors";
+import { green } from "@material-ui/core/colors";
 import folderApi from "../api/folderApi";
 
 const useStyles = makeStyles((theme) => ({

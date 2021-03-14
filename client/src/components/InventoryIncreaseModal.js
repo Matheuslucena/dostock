@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {Dialog, DialogTitle} from "@material-ui/core";
+import { Dialog, DialogTitle } from "@material-ui/core";
 import InventoryForm from "./InventoryForm";
 import productApi from "../api/productApi";
 

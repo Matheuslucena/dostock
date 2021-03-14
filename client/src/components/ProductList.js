@@ -1,24 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {makeStyles} from "@material-ui/core/styles";
-import {useHistory} from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import {
-    Button,
-    ButtonGroup,
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia,
-    Grid,
-    IconButton,
-    Tooltip,
-    Typography,
+  Button,
+  ButtonGroup,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
 } from "@material-ui/core";
 import {
-    AddCircleOutline as AddCircleOutlineIcon,
-    ArrowDownward as ArrowDownwardIcon,
-    ArrowUpward as ArrowUpwardIcon,
-    Edit as EditIcon,
+  AddCircleOutline as AddCircleOutlineIcon,
+  ArrowDownward as ArrowDownwardIcon,
+  ArrowUpward as ArrowUpwardIcon,
+  Edit as EditIcon,
 } from "@material-ui/icons";
 import InventoryIncreaseModal from "./InventoryIncreaseModal";
 import InventoryDecreaseModal from "./InventoryDecreaseModal";
