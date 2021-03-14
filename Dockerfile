@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt-get install -y curl \
     && URL_DOWNLOAD_LATEST_RELEASE=$(curl -L https://api.github.com/repos/matheuslucena/dostock/releases | grep -i browser_download_url | head -n 1 | cut -d '"' -f 4) \
     && curl -o dostock.jar -L $URL_DOWNLOAD_LATEST_RELEASE \
-    && chmod u=x dostock.jar
+    && chmod u+x dostock.jar
 
 EXPOSE 8080
 
