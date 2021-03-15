@@ -10,4 +10,4 @@ RUN apt-get update \
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "dostock.jar", "--db.host=psql", "--db.user=dostock", "--db.pass=dostock"]
+CMD ["java", "-jar", "dostock.jar", "--db.host=psql", "--db.user=dostock", "--db.pass=dostock", "--storage.path='/storage/files'"]

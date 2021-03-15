@@ -9,8 +9,11 @@ import br.com.mlm.dostock.dto.mapper.ProductMapper
 import br.com.mlm.dostock.repositories.FolderRepository
 import br.com.mlm.dostock.repositories.ProductBatchRepository
 import br.com.mlm.dostock.repositories.ProductRepository
+import br.com.mlm.dostock.services.FileService
 import br.com.mlm.dostock.services.ProductService
+import br.com.mlm.dostock.util.types.FileBucket
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 import javax.validation.Valid
@@ -29,13 +32,17 @@ class ProductController {
 
     FolderRepository folderRepository
 
+    FileService fileService
+
     ProductController(ProductService productService, ProductRepository productRepository,
-                      ProductBatchRepository productBatchRepository, ProductMapper productMapper, FolderRepository folderRepository) {
+                      ProductBatchRepository productBatchRepository, ProductMapper productMapper, FolderRepository folderRepository,
+                      FileService fileService) {
         this.productService = productService
         this.productRepository = productRepository
         this.productBatchRepository = productBatchRepository
         this.productMapper = productMapper
         this.folderRepository = folderRepository
+        this.fileService = fileService
     }
 
     @GetMapping("/")
@@ -50,10 +57,16 @@ class ProductController {
         return product
     }
 
-    @PostMapping("/")
-    Product save(@Valid @RequestBody ProductDTO productDTO) {
+    @PostMapping(path = "/", consumes = ["multipart/form-data"])
+    Product save(@Valid @ModelAttribute ProductDTO productDTO) {
         Product product = productMapper.toDomain(productDTO)
-        return productService.save(product)
+        Product productSaved = productService.save(product)
+        if(productDTO.image) {
+            String path = fileService.saveFile(productDTO.image.bytes, productDTO.image.originalFilename, productSaved.id as String, FileBucket.PRODUCT)
+            productSaved.imagePath = path
+            productSaved = productService.save(productSaved)
+        }
+        return productSaved
     }
 
     @PutMapping("/{id}")
@@ -105,5 +118,15 @@ class ProductController {
         }
 
         productService.inventoryDecrease(product, folder, productBatch, inventoryDTO.quantity, inventoryDTO.observation)
+    }
+
+    @GetMapping("/{id}/image")
+    ResponseEntity<byte[]> getImage(@PathVariable Long id){
+        Product product = productService.findById(id)
+        if(product.imagePath){
+            return ResponseEntity.ok(fileService.getFile(product.imagePath)?.bytes)
+        }
+
+        return ResponseEntity.notFound().build()
     }
 }

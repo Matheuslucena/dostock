@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${db.host:127.0.0.1}:5432/dostock
+    url: jdbc:postgresql://${db.host:127.0.0.1}:${db.port:5432}/dostock
     username: ${db.user:dostock}
     password: ${db.pass:dostock}
     driver-class-name: org.postgresql.Driver
@@ -23,3 +23,5 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
+storage:
+  path: ${storage.path:"/Users/matheusmarques/Documents/Desenv/Estudo/dostock/files"}

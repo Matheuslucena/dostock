@@ -108,7 +108,7 @@ function App() {
                 Logs
               </Button>
             </div>
-            <div className={classes.search}>
+            {/* <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -120,7 +120,7 @@ function App() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
-            </div>
+            </div> */}
           </Toolbar>
         </AppBar>
         <Switch>

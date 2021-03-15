@@ -2,10 +2,15 @@ import http from "../utils/http";
 
 export default {
   save(product) {
+    let formData = new FormData();
+    Object.keys(product).forEach((prop) => {
+      formData.append(prop, product[prop]);
+    });
+
     return http({
       method: "POST",
       url: "api/v1/product/",
-      data: product,
+      data: formData,
     });
   },
   update(product) {

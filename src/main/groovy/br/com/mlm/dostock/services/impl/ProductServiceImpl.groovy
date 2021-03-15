@@ -21,6 +21,7 @@ class ProductServiceImpl implements ProductService{
     ProductLogService productLogService
     TagService tagService
     ProductFolderService productFolderService
+    FileService fileService
 
     ProductServiceImpl(ProductRepository productRepository, ProductBatchService productBatchService,
                        ProductLogService productLogService, TagService tagService, ProductFolderService productFolderService) {

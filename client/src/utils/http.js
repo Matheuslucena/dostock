@@ -1,9 +1,5 @@
 import axios from "axios";
-
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? `${window.location.origin}`
-    : "http://127.0.0.1:8080";
+import { BASE_URL } from "./config";
 
 const http = axios.create({
   baseURL: BASE_URL,

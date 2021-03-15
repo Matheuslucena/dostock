@@ -51,6 +51,8 @@ class Product extends BaseEntity{
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     Set<ProductFolder> productFolders = new HashSet<>()
 
+    String imagePath
+
     boolean equals(o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
+import { BASE_URL } from "../utils/config";
 import {
   Button,
   ButtonGroup,
@@ -83,6 +84,13 @@ export default function ProductList(props) {
     setProductSelected(product);
   };
 
+  const productImage = (product) => {
+    if (product.imagePath) {
+      return `${BASE_URL}/api/v1/product/${product.id}/image`;
+    }
+    return "/placeholder-image.jpg";
+  };
+
   const cardList = () => {
     return (
       <Grid container spacing={1}>
@@ -97,7 +105,7 @@ export default function ProductList(props) {
                 <Card variant="outlined">
                   <CardMedia
                     className={classes.cardMedia}
-                    image="/placeholder-image.jpg"
+                    image={productImage(product)}
                     title={product.name}
                   />
                   <CardContent className={classes.cardContent}>
