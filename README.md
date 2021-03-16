@@ -1,3 +1,3 @@
 ###### Dostock
 
-A simple inventory management system using tecnologies such as Spring Boot, Postgres, React.js and Docker
+A simple inventory management system using tecnologies such as Spring Boot, Postgres, Gradle, React.js and Docker
